@@ -21,7 +21,7 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="BaiduPush">
-                <param name="android-package" value="com.kyee.plugins.baidupush.BaiduPushPlugin"/>
+                <param name="android-package" value="com.samilywang.plugins.baidupush.BaiduPushPlugin"/>
             </feature>
         </config-file>
 

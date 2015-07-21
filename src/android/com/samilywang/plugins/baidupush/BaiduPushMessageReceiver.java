@@ -1,4 +1,4 @@
-package com.kyee.plugins.baidupush;
+package com.samilywang.plugins.baidupush;
 
 import java.util.List;
 
