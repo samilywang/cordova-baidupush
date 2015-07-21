@@ -14,7 +14,6 @@ import android.util.Log;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushMessageReceiver;
-import com.kyee.pocketdoctor.MainActivity;
 
 /**
  * Author: Samily Wang
@@ -32,13 +31,13 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
      */
     private enum CB_TYPE {
         onBind,
-                onUnbind,
-                onSetTags,
-                onDelTags,
-                onListTags,
-                onMessage,
-                onNotificationClicked,
-                onNotificationArrived
+        onUnbind,
+        onSetTags,
+        onDelTags,
+        onListTags,
+        onMessage,
+        onNotificationClicked,
+        onNotificationArrived
     }
 
     public static JSONObject result = null;
