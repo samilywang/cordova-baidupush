@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.samilywang.plugins.baidupush"
-        version="1.0.0">
+        version="1.0.1">
 
     <name>baidupush</name>
     <description>
@@ -10,7 +10,7 @@
     </description>
     <license>MIT</license>
     <engines>
-        <engine name="cordova" version=">=4.0.0" />
+        <engine name="cordova" version=">=3.0.0" />
     </engines>
 
     <js-module src="www/baidupush.js" name="baidupush">
