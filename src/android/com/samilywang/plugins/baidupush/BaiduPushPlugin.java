@@ -44,7 +44,7 @@ public class BaiduPushPlugin extends CordovaPlugin {
      * @return
      * @throws JSONException
      */
-    public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) {
         //需要整体锁
         synchronized(wholeLock) {
             boolean status = true;
@@ -100,6 +100,9 @@ public class BaiduPushPlugin extends CordovaPlugin {
                     }
                     cbLock.notify();
                 } catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                catch(JSONException e){
                     e.printStackTrace();
                 }
             }

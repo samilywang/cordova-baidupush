@@ -1,6 +1,6 @@
 {
   "name": "com.samilywang.plugins.baidupush",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "cordova_name": "baidupush",
   "description": "\n    This plugin binds appId, userId, channelId of BaiduYun Push.\n    It also accepts messages pushed by BaiduYun.\n",
   "keywords": [

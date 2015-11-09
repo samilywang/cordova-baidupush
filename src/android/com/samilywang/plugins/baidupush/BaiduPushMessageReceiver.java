@@ -347,9 +347,14 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
      * @param value      值
      * @throws JSONException JSON异常
      */
-    private void setStringData(JSONObject jsonObject, String name, String value) throws JSONException {
-        if (value != null && !"".equals(value)) {
-            jsonObject.put(name, value);
+    private void setStringData(JSONObject jsonObject, String name, String value) {
+        try {
+            if (value != null && !"".equals(value)) {
+                jsonObject.put(name, value);
+            }
+        }
+        catch(JSONException e){
+            e.printStackTrace();
         }
     }
 
