@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.samilywang.plugins.baidupush"
-        version="1.0.1">
+        version="1.0.2">
 
     <name>baidupush</name>
     <description>
@@ -39,7 +39,7 @@
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <receiver android:name="com.kyee.plugins.baidupush.BaiduPushMessageReceiver">
+            <receiver android:name="com.samilywang.plugins.baidupush.BaiduPushMessageReceiver">
                 <intent-filter>
                     <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
                     <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
