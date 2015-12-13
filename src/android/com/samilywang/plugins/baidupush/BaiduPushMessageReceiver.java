@@ -9,10 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushMessageReceiver;
 
 /**
@@ -54,25 +52,23 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
      */
     @Override
     public void onBind(Context context, int errorCode, String appId, String userId, String channelId, String requestId) {
-        synchronized (BaiduPushPlugin.cbLock) {
-            try {
-                result = new JSONObject();
-                JSONObject data = new JSONObject();
-                data.put("appId", appId);
-                data.put("userId", userId);
-                data.put("channelId", channelId);
-                data.put("requestId", requestId);
-                data.put("errorCode", errorCode);
-                data.put("deviceType", 3);
+        try {
+            result = new JSONObject();
+            JSONObject data = new JSONObject();
+            data.put("appId", appId);
+            data.put("userId", userId);
+            data.put("channelId", channelId);
+            data.put("requestId", requestId);
+            data.put("errorCode", errorCode);
+            data.put("deviceType", 3);
 
-                result.put("data", data);
-                result.put("type", CB_TYPE.onBind);
-
-                BaiduPushPlugin.cbLock.notify();
-            } catch (Exception e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-            }
+            result.put("data", data);
+            result.put("type", CB_TYPE.onBind);
+            sendPushData(result, BaiduPushPlugin.BaiduPushcallbackContext);
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
+
     }
 
 
@@ -85,21 +81,19 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
      */
     @Override
     public void onUnbind(Context context, int errorCode, String requestId) {
-        synchronized (BaiduPushPlugin.cbLock) {
-            try {
-                result = new JSONObject();
+        try {
+            result = new JSONObject();
 
-                JSONObject data = new JSONObject();
-                data.put("errorCode", errorCode);
-                setStringData(data, "requestId", requestId);
+            JSONObject data = new JSONObject();
+            data.put("errorCode", errorCode);
+            setStringData(data, "requestId", requestId);
 
-                result.put("data", data);
-                result.put("type", CB_TYPE.onUnbind);
+            result.put("data", data);
+            result.put("type", CB_TYPE.onUnbind);
 
-                BaiduPushPlugin.cbLock.notify();
-            } catch (Exception e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-            }
+            sendPushData(result, BaiduPushPlugin.BaiduPushcallbackContext);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
     }
 
@@ -114,38 +108,37 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
      */
     @Override
     public void onSetTags(Context context, int errorCode, List<String> successTags, List<String> failTags, String requestId) {
-        synchronized (BaiduPushPlugin.cbLock) {
-            try {
-                result = new JSONObject();
+        try {
+            result = new JSONObject();
 
-                JSONObject data = new JSONObject();
-                data.put("errorCode", errorCode);
-                setStringData(data, "requestId", requestId);
-                if (successTags != null && successTags.size() > 0) {
-                    JSONArray successTagArr = new JSONArray();
-                    for (String successTag : successTags) {
-                        successTagArr.put(successTag);
-                    }
-                    data.put("successTags", successTagArr);
+            JSONObject data = new JSONObject();
+            data.put("errorCode", errorCode);
+            setStringData(data, "requestId", requestId);
+            if (successTags != null && successTags.size() > 0) {
+                JSONArray successTagArr = new JSONArray();
+                for (String successTag : successTags) {
+                    successTagArr.put(successTag);
                 }
-                if (failTags != null && failTags.size() > 0) {
-                    JSONArray failTagArr = new JSONArray();
-                    for (String failTag : failTags) {
-                        failTagArr.put(failTag);
-                    }
-                    data.put("failTags", failTagArr);
-                }
-
-                data.put("errorCode", errorCode);
-                data.put("requestId", requestId);
-                result.put("data", data);
-                result.put("type", CB_TYPE.onSetTags);
-
-                BaiduPushPlugin.cbLock.notify();
-            } catch (Exception e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
+                data.put("successTags", successTagArr);
             }
+            if (failTags != null && failTags.size() > 0) {
+                JSONArray failTagArr = new JSONArray();
+                for (String failTag : failTags) {
+                    failTagArr.put(failTag);
+                }
+                data.put("failTags", failTagArr);
+            }
+
+            data.put("errorCode", errorCode);
+            data.put("requestId", requestId);
+            result.put("data", data);
+            result.put("type", CB_TYPE.onSetTags);
+
+            sendPushData(result, BaiduPushPlugin.BaiduPushcallbackContext);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
+
     }
 
     /**
@@ -159,38 +152,36 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
      */
     @Override
     public void onDelTags(Context context, int errorCode, List<String> successTags, List<String> failTags, String requestId) {
-        synchronized (BaiduPushPlugin.cbLock) {
-            try {
-                result = new JSONObject();
+        try {
+            result = new JSONObject();
 
-                JSONObject data = new JSONObject();
-                data.put("errorCode", errorCode);
-                setStringData(data, "requestId", requestId);
-                if (successTags != null && successTags.size() > 0) {
-                    JSONArray successTagArr = new JSONArray();
-                    for (String successTag : successTags) {
-                        successTagArr.put(successTag);
-                    }
-                    data.put("successTags", successTagArr);
+            JSONObject data = new JSONObject();
+            data.put("errorCode", errorCode);
+            setStringData(data, "requestId", requestId);
+            if (successTags != null && successTags.size() > 0) {
+                JSONArray successTagArr = new JSONArray();
+                for (String successTag : successTags) {
+                    successTagArr.put(successTag);
                 }
-                if (failTags != null && failTags.size() > 0) {
-                    JSONArray failTagArr = new JSONArray();
-                    for (String failTag : failTags) {
-                        failTagArr.put(failTag);
-                    }
-                    data.put("failTags", failTagArr);
-                }
-
-
-                data.put("errorCode", errorCode);
-                data.put("requestId", requestId);
-                result.put("data", data);
-                result.put("type", CB_TYPE.onDelTags);
-
-                BaiduPushPlugin.cbLock.notify();
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
+                data.put("successTags", successTagArr);
             }
+            if (failTags != null && failTags.size() > 0) {
+                JSONArray failTagArr = new JSONArray();
+                for (String failTag : failTags) {
+                    failTagArr.put(failTag);
+                }
+                data.put("failTags", failTagArr);
+            }
+
+
+            data.put("errorCode", errorCode);
+            data.put("requestId", requestId);
+            result.put("data", data);
+            result.put("type", CB_TYPE.onDelTags);
+
+            sendPushData(result, BaiduPushPlugin.BaiduPushcallbackContext);
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
 
     }
@@ -205,31 +196,30 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
      */
     @Override
     public void onListTags(Context context, int errorCode, List<String> tags, String requestId) {
-        synchronized (BaiduPushPlugin.cbLock) {
-            try {
-                result = new JSONObject();
+        try {
+            result = new JSONObject();
 
-                JSONObject data = new JSONObject();
-                data.put("errorCode", errorCode);
-                setStringData(data, "requestId", requestId);
-                if (tags != null && tags.size() > 0) {
-                    JSONArray tagArr = new JSONArray();
-                    for (String tag : tags) {
-                        tagArr.put(tag);
-                    }
-                    data.put("tags", tagArr);
+            JSONObject data = new JSONObject();
+            data.put("errorCode", errorCode);
+            setStringData(data, "requestId", requestId);
+            if (tags != null && tags.size() > 0) {
+                JSONArray tagArr = new JSONArray();
+                for (String tag : tags) {
+                    tagArr.put(tag);
                 }
-
-                data.put("errorCode", errorCode);
-                data.put("requestId", requestId);
-                result.put("data", data);
-                result.put("type", CB_TYPE.onListTags);
-
-                BaiduPushPlugin.cbLock.notify();
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
+                data.put("tags", tagArr);
             }
+
+            data.put("errorCode", errorCode);
+            data.put("requestId", requestId);
+            result.put("data", data);
+            result.put("type", CB_TYPE.onListTags);
+
+            sendPushData(result, BaiduPushPlugin.BaiduPushcallbackContext);
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
+
 
     }
 
@@ -329,6 +319,7 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
 
     /**
      * 接收推送内容并返回给前端JS
+     *
      * @param jsonObject JSON对象
      */
     private void sendPushData(JSONObject jsonObject, CallbackContext callbackContext) {
@@ -347,14 +338,9 @@ public class BaiduPushMessageReceiver extends PushMessageReceiver {
      * @param value      值
      * @throws JSONException JSON异常
      */
-    private void setStringData(JSONObject jsonObject, String name, String value) {
-        try {
-            if (value != null && !"".equals(value)) {
-                jsonObject.put(name, value);
-            }
-        }
-        catch(JSONException e){
-            e.printStackTrace();
+    private void setStringData(JSONObject jsonObject, String name, String value) throws JSONException {
+        if (value != null && !"".equals(value)) {
+            jsonObject.put(name, value);
         }
     }
 
